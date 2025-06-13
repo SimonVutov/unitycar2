@@ -1,6 +1,95 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class Engine
+{
+    public float idleRPM = 2400f;
+    public float maxRPM = 7000f;
+    public float[] gearRatios = { 3.50f, 2.80f, 2.30f, 1.90f, 1.60f, 1.30f, 1.00f, 0.85f };
+    public float finalDriveRatio = 4.0f;
+    private int currentGear = 0;
+    public bool automaticTransmission = true;
+    private bool switchingGears = false;
+    private float gearChangeTime = 0.18f; //seconds to switch gears
+    private float rpm = 0f;
+    public void SetRPM(float averageWheelAngularVelocity)
+    {
+        float averageWheelRPM = (averageWheelAngularVelocity * 60f) / (2f * Mathf.PI);
+        float totalRatio = Math.Abs(gearRatios[currentGear] * finalDriveRatio);
+        float transmissionRPM = averageWheelRPM * totalRatio;
+        float targetRPM = Mathf.Max(idleRPM, transmissionRPM);
+        this.rpm = Mathf.Clamp(targetRPM, idleRPM, maxRPM);
+    }
+    public float GetCurrentPower(MonoBehaviour context) // 0-1 based on RPM
+    {
+        if (switchingGears) return 0.3f; // Less power during gear switch
+        return Mathf.Clamp01(rpm / maxRPM);
+    }
+    public float AngularVelocityToRPM(float angularVelocity)
+    {
+        return angularVelocity * 60f / (2f * Mathf.PI);
+    }
+
+    public void UpGear(MonoBehaviour context)
+    {
+        if (currentGear < gearRatios.Length - 1 && !switchingGears)
+        {
+            currentGear++;
+            switchingGears = true;
+            // Start coroutine to reset switchingGears after 0.4 seconds
+            context.StartCoroutine(ResetSwitchingGearsCoroutine());
+        }
+    }
+
+    public void DownGear(MonoBehaviour context)
+    {
+        if (currentGear > 0 && !switchingGears)
+        {
+            currentGear--;
+            switchingGears = true;
+            // Start coroutine to reset switchingGears after 0.4 seconds
+            context.StartCoroutine(ResetSwitchingGearsCoroutine());
+        }
+    }
+
+    private System.Collections.IEnumerator ResetSwitchingGearsCoroutine()
+    {
+        yield return new WaitForSeconds(gearChangeTime);
+        switchingGears = false;
+    }
+
+    public int getCurrentGear()
+    {
+        return currentGear + 1; // Return 1-based gear number
+    }
+
+    public void checkGearSwitching(MonoBehaviour context)
+    {
+        if (switchingGears) return;
+
+        // Check if the RPM is too high or too low for the current gear
+        if (rpm > maxRPM * 0.95f && currentGear < gearRatios.Length - 1)
+        {
+            UpGear(context);
+        }
+        else if (rpm < maxRPM * 0.6f && currentGear > 0)
+        {
+            DownGear(context);
+        }
+    }
+
+    public float getRPM()
+    {
+        return rpm;
+    }
+    public bool isSwitchingGears()
+    {
+        return switchingGears;
+    }
+}
 
 [Serializable]
 public class WheelProperties
@@ -29,15 +118,18 @@ public class WheelProperties
     [HideInInspector] public float angularVelocity;
     [HideInInspector] public float slip;
     [HideInInspector] public Vector2 input = Vector2.zero;
-    [HideInInspector] public float braking = 0;
+    [HideInInspector] public float brake = 0;
+    [HideInInspector] public float slipHistory = 0f;
+    [HideInInspector] public float tcsReduction = 0f; // Traction control reduction factor
 }
 
 public class Car : MonoBehaviour
 {
+    public Engine e;
     public GameObject skidMarkPrefab;
     public float smoothTurn = 0.03f;
-    float coefStaticFriction = 2.95f;
-    float coefKineticFriction = 0.85f;
+    float coefStaticFriction = 1.95f;
+    float coefKineticFriction = 0.95f;
     public GameObject wheelPrefab;
     public WheelProperties[] wheels;
     public float wheelGripX = 8f;
@@ -45,16 +137,20 @@ public class Car : MonoBehaviour
     public float suspensionForce = 90f;
     public float dampAmount = 2.5f;
     public float suspensionForceClamp = 200f;
-    private Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     [HideInInspector] public bool forwards = true;
 
 
     // Assists
     public bool steeringAssist = true;
+    [Range(0f, 1f)] public float steeringAssistStrength = 0.2f; // Strength of steering assist
     public bool throttleAssist = true;
     public bool brakeAssist = true;
     [HideInInspector] public Vector2 userInput = Vector2.zero;
     public float downforce = 0.16f;
+    [HideInInspector] public float isBraking = 0f;
+    public Vector3 COMOffset = new Vector3(0, -0.2f, 0);
+    public float Inertia = 1.2f; // Multiplier for inertia tensor
 
     void Start()
     {
@@ -82,66 +178,89 @@ public class Car : MonoBehaviour
             }
         }
 
-        rb.centerOfMass += new Vector3(0, -0.5f, 0);
-        rb.inertiaTensor *= 1.4f;
+        foreach (var w in wheels)
+        {
+            w.tcsReduction = 0f;
+            w.slipHistory = 0f;
+        }
+
+        rb.centerOfMass += COMOffset;
+        rb.inertiaTensor *= Inertia;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            transform.rotation = Quaternion.identity;
+            transform.position += Vector3.up * 2f;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
         // Get player input for reference
         userInput.x = Mathf.Lerp(userInput.x, Input.GetAxisRaw("Horizontal") / (1 + rb.linearVelocity.magnitude / 28f), 0.2f);
         userInput.y = Mathf.Lerp(userInput.y, Input.GetAxisRaw("Vertical"), 0.2f);
         bool isBraking = Input.GetKey(KeyCode.S) && forwards;
         if (isBraking) userInput.y = 0;
 
-        float maxSlip = 0;
-        // Calculate the maximum slip of all wheels
         for (int i = 0; i < wheels.Length; i++)
         {
-            maxSlip = Mathf.Max(maxSlip, wheels[i].slip);
-        }
-
-        for (int i = 0; i < wheels.Length; i++)
-        {
-            if (throttleAssist && maxSlip > 0.96f)
-            {
-                // Reduce throttle input if slip is too high
-                userInput.y = Mathf.Lerp(userInput.y, 0, maxSlip);
-            }
+            var w = wheels[i];
             
-            if (steeringAssist && maxSlip > 0.7f)
+            // Ensure no NaN values from previous frames
+            if (float.IsNaN(w.slip) || float.IsInfinity(w.slip))
+                w.slip = 0f;
+            
+            // High-performance F1 traction control
+            if (throttleAssist)
             {
-                // Reduce steering input if slip is too high
-                userInput.x = Mathf.Lerp(userInput.x, 0, 0.05f);
+                float targetSlip = 0.85f; // Desired slip ratio for max traction
+                float slipTolerance = 0.05f; // Allowable deviation from target slip
+                if (w.slip > targetSlip + slipTolerance)
+                {
+                    // If slip exceeds the upper bound, calculate how much it overshoots
+                    float overshoot = w.slip - targetSlip;
+                    // Convert overshoot to a reduction factor (aggressive multiplier)
+                    float reduction = Mathf.Clamp01(overshoot * 2.0f);
+                    // Aggressively increase TCS reduction to cut power fast
+                    w.tcsReduction = Mathf.Lerp(w.tcsReduction, 1, reduction/5f);
+                }
+                else if (w.slip < targetSlip - slipTolerance)
+                {
+                    // If slip is below the lower bound, quickly restore power
+                    w.tcsReduction = Mathf.Lerp(w.tcsReduction, 0f, 0.6f * Time.deltaTime);
+                }
+                // Clamp TCS reduction to [0, 1] range
+                w.tcsReduction = Mathf.Clamp01(w.tcsReduction);
             }
-            // Apply counter-steering when slipping severely
-            if (maxSlip > 1.0f && wheels[i].localVelocity.magnitude > 0.1f)
-            {
-                // Calculate the angle between the wheel's forward direction and the sliding direction
-                float angle = Mathf.Atan2(wheels[i].localVelocity.x, wheels[i].localVelocity.z) * Mathf.Rad2Deg;
-                
-                // Apply counter-steering to match the sliding direction
-                wheels[i].input = new Vector2(
-                    Mathf.Lerp(wheels[i].input.x, Mathf.Clamp(angle / wheels[i].turnAngle, -1f, 1f), 0.1f),
-                    wheels[i].input.y
-                );
-            }
+            w.brake = (isBraking == true ? 1 : 0) * (1 - w.tcsReduction);
 
-            if (brakeAssist && maxSlip > 0.99f)
-            {
-                // Reduce braking input if slip is too high
-                isBraking = false;
-            }
-
-            wheels[i].braking = Mathf.Lerp(wheels[i].braking, (float)(isBraking ? 1 : 0), 0.2f);
-            wheels[i].input = new Vector2(userInput.x, userInput.y);
+            // Apply steering input smoothing (steering assist or slip-based reduction can be added here if desired)
+            float s = Mathf.Clamp01(w.slip);
+            w.input.x = Mathf.Lerp(w.input.x, userInput.x, Time.deltaTime * 60f);
+            if (s > 0.3f && s < 1.5f && steeringAssist) w.input.x = Mathf.Lerp(w.input.x, 0, s * Time.deltaTime * steeringAssistStrength);
+            
+            // Apply throttle with TCS - more responsive for F1
+            float finalThrottle = userInput.y * (1f - w.tcsReduction);
+            if (float.IsNaN(finalThrottle) || float.IsInfinity(finalThrottle))
+                finalThrottle = 0f;
+            w.input.y = Mathf.Lerp(w.input.y, finalThrottle, 0.95f * Time.deltaTime * 60f);
+            if (float.IsNaN(w.input.y) || float.IsInfinity(w.input.y))
+                w.input.y = 0f;
         }
+
+        if (Input.GetKeyDown(KeyCode.E)) e.UpGear(this);
+        else if (Input.GetKeyDown(KeyCode.Q)) e.DownGear(this);
+
+        e.checkGearSwitching(this);
     }
 
     void FixedUpdate()
     {
-        // Debug.Log(rb.velocity.magnitude);
         rb.AddForce(-transform.up * rb.linearVelocity.magnitude * downforce);
+        float averageWheelAngularVelocity = 0f;
+        // Debug.Log(rb.velocity.magnitude);
         foreach (var w in wheels)
         {
             RaycastHit hit;
@@ -154,7 +273,7 @@ public class Car : MonoBehaviour
             Vector3 velocityAtWheel = rb.GetPointVelocity(w.wheelWorldPosition);
             w.localVelocity = wheelObj.InverseTransformDirection(velocityAtWheel);
             forwards = w.localVelocity.z > 0.1f;
-            w.torque = w.engineTorque * w.input.y;
+            w.torque = w.engineTorque * w.input.y * e.GetCurrentPower(this);
 
             float inertia = w.mass * w.size * w.size / 2f;
             float lateralVel = w.localVelocity.x;
@@ -167,7 +286,7 @@ public class Car : MonoBehaviour
             float longitudinalFriction = -wheelGripZ * (w.localVelocity.z - w.angularVelocity * w.size);
 
             w.angularVelocity += (w.torque - longitudinalFriction * w.size) / inertia * Time.fixedDeltaTime;
-            w.angularVelocity *= 1 - w.braking * w.brakeStrength * Time.fixedDeltaTime;
+            w.angularVelocity *= 1 - w.brake * w.brakeStrength * Time.fixedDeltaTime;
             if (Input.GetKey(KeyCode.Space)) // Handbrake
             {
                 w.angularVelocity = 0;
@@ -210,6 +329,8 @@ public class Car : MonoBehaviour
                         w.skidTrail = skidTrailObj.GetComponent<TrailRenderer>();
                         w.skidTrail.time = 3f; // Trail lasts for 10 seconds
                         w.skidTrail.autodestruct = true;
+                        w.skidTrail.emitting = false;
+                        w.skidTrail.transform.position = hit.point;
                         if (w.skidTrail != null)
                         {
                             w.skidTrail.emitting = true;
@@ -219,7 +340,7 @@ public class Car : MonoBehaviour
                     {
                         // Continue emitting and update its position to the contact point.
                         w.skidTrail.emitting = true;
-                        w.skidTrail.transform.position = hit.point;
+                        w.skidTrail.transform.position = hit.point + transform.up * 0.2f;
                         // Align the skid trail so its up vector is the road normal.
                         // This projects the wheel's forward direction onto the road plane to preserve skid direction.
                         // Now update to real position/rotation
@@ -255,11 +376,17 @@ public class Car : MonoBehaviour
                     w.skidTrail = null;
                 }
             }
+
+            averageWheelAngularVelocity += w.angularVelocity;
+
             wheelVisual.Rotate(
                 Vector3.right,
                 w.angularVelocity * Mathf.Rad2Deg * Time.fixedDeltaTime,
                 Space.Self
             );
         }
+
+        averageWheelAngularVelocity /= wheels.Length;
+        e.SetRPM(averageWheelAngularVelocity);
     }
 }
