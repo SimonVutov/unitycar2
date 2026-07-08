@@ -93,11 +93,13 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8274133419916619345, guid: 8d1b2c0e7a2dc45599ce8b5c782dda9b, type: 3}
-  - {fileID: -2813467912831258332, guid: 8d1b2c0e7a2dc45599ce8b5c782dda9b, type: 3}
+  - {fileID: 2100000, guid: 22df82b2613d34e88bb156cd00fcdb80, type: 2}
+  - {fileID: 2100000, guid: 22df82b2613d34e88bb156cd00fcdb80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,9 +117,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6632539964932309253
 GameObject:
@@ -213,11 +217,13 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8274133419916619345, guid: 8d1b2c0e7a2dc45599ce8b5c782dda9b, type: 3}
-  - {fileID: -2813467912831258332, guid: 8d1b2c0e7a2dc45599ce8b5c782dda9b, type: 3}
+  - {fileID: 2100000, guid: 22df82b2613d34e88bb156cd00fcdb80, type: 2}
+  - {fileID: 2100000, guid: 22df82b2613d34e88bb156cd00fcdb80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -235,7 +241,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
