@@ -151,6 +151,7 @@ public class Car : MonoBehaviour
     [HideInInspector] public float isBraking = 0f;
     public Vector3 COMOffset = new Vector3(0, -0.2f, 0);
     public float Inertia = 1.2f; // Multiplier for inertia tensor
+    public bool handBrakeEnabled = true;
 
     void Start()
     {
@@ -287,7 +288,7 @@ public class Car : MonoBehaviour
 
             w.angularVelocity += (w.torque - longitudinalFriction * w.size) / inertia * Time.fixedDeltaTime;
             w.angularVelocity *= 1 - w.brake * w.brakeStrength * Time.fixedDeltaTime;
-            if (Input.GetKey(KeyCode.Space)) // Handbrake
+            if (handBrakeEnabled && Input.GetKey(KeyCode.Space)) // Handbrake
             {
                 w.angularVelocity = 0;
             }
@@ -333,12 +334,18 @@ public class Car : MonoBehaviour
                         w.skidTrail.transform.position = hit.point;
                         if (w.skidTrail != null)
                         {
+                            w.skidTrail.Clear();
                             w.skidTrail.emitting = true;
                         }
                     }
                     else if (w.skidTrail != null)
                     {
                         // Continue emitting and update its position to the contact point.
+                        if (!w.skidTrail.emitting)
+                        {
+                            w.skidTrail.transform.position = hit.point;
+                            w.skidTrail.Clear();
+                        }
                         w.skidTrail.emitting = true;
                         w.skidTrail.transform.position = hit.point + transform.up * 0.2f;
                         // Align the skid trail so its up vector is the road normal.
