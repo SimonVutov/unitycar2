@@ -286,7 +286,9 @@ public class Car : MonoBehaviour
             float lateralFriction = -wheelGripX * lateralVel - 2f * lateralHitVel;
             float longitudinalFriction = -wheelGripZ * (w.localVelocity.z - w.angularVelocity * w.size);
 
-            w.angularVelocity += (w.torque - longitudinalFriction * w.size) / inertia * Time.fixedDeltaTime;
+            // Only let ground friction decelerate the wheel when it is actually on the ground.
+            float groundTorque = grounded ? longitudinalFriction * w.size : 0f;
+            w.angularVelocity += (w.torque - groundTorque) / inertia * Time.fixedDeltaTime;
             w.angularVelocity *= 1 - w.brake * w.brakeStrength * Time.fixedDeltaTime;
             if (handBrakeEnabled && Input.GetKey(KeyCode.Space)) // Handbrake
             {

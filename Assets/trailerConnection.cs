@@ -6,7 +6,7 @@ using UnityEngine;
 public class trailerConnection : MonoBehaviour
 {
     public float strengthMultiplier = 1.0f;
-    public float carHeavierMultiplier = 2.0f;
+
     public GameObject trailer;
     public GameObject connectionPointOnTrailer;
     public GameObject vehicle;
@@ -14,7 +14,9 @@ public class trailerConnection : MonoBehaviour
     public float setDistance = 0.8f;
     float lastDistance = -1.0f; // -1 sentinel: will be initialised in Start
     float strength = 40.0f;
-    float damp = 400.0f;
+    // Effective damping coefficient is damp / fixedDeltaTime (see FixedUpdate).
+    // 8 / 0.02 = 400, matching the previous behaviour but now timestep-independent.
+    float damp = 8.0f;
     Rigidbody VehicleRb;
     Rigidbody TrailerRb;
     LineRenderer lineRenderer;
@@ -60,11 +62,11 @@ public class trailerConnection : MonoBehaviour
                            - connectionPointOnVehicle.transform.position) / dist;
 
         float pushPull = ((setDistance - dist) * strength
-                        + (lastDistance - dist) * damp)
+                        + (lastDistance - dist) / Time.fixedDeltaTime * damp)
                         * strengthMultiplier;
 
         Vector3 force = pushPull * direction;
-        VehicleRb.AddForceAtPosition(-force / carHeavierMultiplier, connectionPointOnVehicle.transform.position);
+        VehicleRb.AddForceAtPosition(-force, connectionPointOnVehicle.transform.position);
         TrailerRb.AddForceAtPosition( force, connectionPointOnTrailer.transform.position);
         lastDistance = dist;
     }
