@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &138920232 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+  m_PrefabInstance: {fileID: 1139273888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &276441088
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 276441088}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.054, z: -2.594}
+  m_LocalPosition: {x: 0, y: 0.579, z: -1.504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -309,6 +314,11 @@ MonoBehaviour:
   rotationSpeedY: 120
   minYAngle: -20
   maxYAngle: 80
+--- !u!4 &352988090 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+  m_PrefabInstance: {fileID: 1618993609}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::trailerConnection
   strengthMultiplier: 1
-  carHeavierMultiplier: 4
+  carHeavierMultiplier: 0.3
   trailer: {fileID: 796381147}
   connectionPointOnTrailer: {fileID: 766509965}
   vehicle: {fileID: 1587657321}
@@ -628,7 +638,7 @@ Transform:
   m_GameObject: {fileID: 766509965}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.487, z: 1.884}
+  m_LocalPosition: {x: 0, y: 0.908, z: -1.512}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -700,12 +710,12 @@ MonoBehaviour:
   wheels:
   - skidTrail: {fileID: 0}
     skidTrailGameObject: {fileID: 0}
-    localPosition: {x: 0.9, y: -0.1, z: -0.85}
+    localPosition: {x: 0.9, y: 1, z: -7}
     turnAngle: 0
-    suspensionLength: 0.3
+    suspensionLength: 0.12
     lastSuspensionLength: 0
     mass: 2
-    size: 0.33
+    size: 0.43
     engineTorque: 0
     brakeStrength: 0
     slidding: 0
@@ -725,12 +735,112 @@ MonoBehaviour:
     tcsReduction: 0
   - skidTrail: {fileID: 0}
     skidTrailGameObject: {fileID: 0}
-    localPosition: {x: -0.9, y: -0.1, z: -0.85}
+    localPosition: {x: -0.9, y: 1, z: -7}
     turnAngle: 0
-    suspensionLength: 0.3
+    suspensionLength: 0.12
     lastSuspensionLength: 0
     mass: 2
-    size: 0.33
+    size: 0.43
+    engineTorque: 0
+    brakeStrength: 0
+    slidding: 0
+    worldSlipDirection: {x: 0, y: 0, z: 0}
+    suspensionForceDirection: {x: 0, y: 0, z: 0}
+    wheelWorldPosition: {x: 0, y: 0, z: 0}
+    wheelCircumference: 0
+    torque: 0
+    wheelObject: {fileID: 0}
+    localVelocity: {x: 0, y: 0, z: 0}
+    normalForce: 0
+    angularVelocity: 0
+    slip: 0
+    input: {x: 0, y: 0}
+    brake: 0
+    slipHistory: 0
+    tcsReduction: 0
+  - skidTrail: {fileID: 0}
+    skidTrailGameObject: {fileID: 0}
+    localPosition: {x: -0.9, y: 1, z: -8}
+    turnAngle: 0
+    suspensionLength: 0.12
+    lastSuspensionLength: 0
+    mass: 2
+    size: 0.43
+    engineTorque: 0
+    brakeStrength: 0
+    slidding: 0
+    worldSlipDirection: {x: 0, y: 0, z: 0}
+    suspensionForceDirection: {x: 0, y: 0, z: 0}
+    wheelWorldPosition: {x: 0, y: 0, z: 0}
+    wheelCircumference: 0
+    torque: 0
+    wheelObject: {fileID: 0}
+    localVelocity: {x: 0, y: 0, z: 0}
+    normalForce: 0
+    angularVelocity: 0
+    slip: 0
+    input: {x: 0, y: 0}
+    brake: 0
+    slipHistory: 0
+    tcsReduction: 0
+  - skidTrail: {fileID: 0}
+    skidTrailGameObject: {fileID: 0}
+    localPosition: {x: 0.9, y: 1, z: -8}
+    turnAngle: 0
+    suspensionLength: 0.12
+    lastSuspensionLength: 0
+    mass: 2
+    size: 0.43
+    engineTorque: 0
+    brakeStrength: 0
+    slidding: 0
+    worldSlipDirection: {x: 0, y: 0, z: 0}
+    suspensionForceDirection: {x: 0, y: 0, z: 0}
+    wheelWorldPosition: {x: 0, y: 0, z: 0}
+    wheelCircumference: 0
+    torque: 0
+    wheelObject: {fileID: 0}
+    localVelocity: {x: 0, y: 0, z: 0}
+    normalForce: 0
+    angularVelocity: 0
+    slip: 0
+    input: {x: 0, y: 0}
+    brake: 0
+    slipHistory: 0
+    tcsReduction: 0
+  - skidTrail: {fileID: 0}
+    skidTrailGameObject: {fileID: 0}
+    localPosition: {x: -0.9, y: 1, z: -6}
+    turnAngle: 0
+    suspensionLength: 0.12
+    lastSuspensionLength: 0
+    mass: 2
+    size: 0.43
+    engineTorque: 0
+    brakeStrength: 0
+    slidding: 0
+    worldSlipDirection: {x: 0, y: 0, z: 0}
+    suspensionForceDirection: {x: 0, y: 0, z: 0}
+    wheelWorldPosition: {x: 0, y: 0, z: 0}
+    wheelCircumference: 0
+    torque: 0
+    wheelObject: {fileID: 0}
+    localVelocity: {x: 0, y: 0, z: 0}
+    normalForce: 0
+    angularVelocity: 0
+    slip: 0
+    input: {x: 0, y: 0}
+    brake: 0
+    slipHistory: 0
+    tcsReduction: 0
+  - skidTrail: {fileID: 0}
+    skidTrailGameObject: {fileID: 0}
+    localPosition: {x: 0.9, y: 1, z: -6}
+    turnAngle: 0
+    suspensionLength: 0.12
+    lastSuspensionLength: 0
+    mass: 2
+    size: 0.43
     engineTorque: 0
     brakeStrength: 0
     slidding: 0
@@ -763,7 +873,7 @@ MonoBehaviour:
   downforce: 0.02
   isBraking: 0
   COMOffset: {x: 0, y: -0.2, z: 0}
-  Inertia: 1
+  Inertia: 2.3
   handBrakeEnabled: 0
 --- !u!65 &796381150
 BoxCollider:
@@ -784,8 +894,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5410373, y: 1.0359203, z: 2.890611}
-  m_Center: {x: 0, y: 0.04918593, z: -0.88127553}
+  m_Size: {x: 2.4727428, y: 2.367443, z: 9.685473}
+  m_Center: {x: 0, y: 2.4152465, z: -4.8011575}
 --- !u!23 &796381151
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -852,12 +962,13 @@ Transform:
   m_GameObject: {fileID: 796381147}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.248, z: -4.474}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 721237305}
   - {fileID: 766509966}
+  - {fileID: 352988090}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
@@ -1046,6 +1157,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107571332}
   m_CullTransparentMesh: 1
+--- !u!1001 &1139273888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1587657326}
+    m_Modifications:
+    - target: {fileID: 100008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_Name
+      value: Truck
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4337929308603946176, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b70eb1cf1be37564f8063fba2095584b, type: 3}
 --- !u!1 &1436172395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,13 +1347,13 @@ MonoBehaviour:
   wheels:
   - skidTrail: {fileID: 0}
     skidTrailGameObject: {fileID: 0}
-    localPosition: {x: 0.78, y: 0.55, z: 1.7}
+    localPosition: {x: 0.88, y: 0.37, z: 1.6}
     turnAngle: 34
-    suspensionLength: 0.18
+    suspensionLength: 0.05
     lastSuspensionLength: 0
     mass: 4.7
-    size: 0.42
-    engineTorque: 100
+    size: 0.5
+    engineTorque: 0
     brakeStrength: 4
     slidding: 0
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -1203,13 +1372,13 @@ MonoBehaviour:
     tcsReduction: 0
   - skidTrail: {fileID: 0}
     skidTrailGameObject: {fileID: 0}
-    localPosition: {x: -0.78, y: 0.55, z: 1.7}
+    localPosition: {x: -0.88, y: 0.37, z: 1.6}
     turnAngle: 34
-    suspensionLength: 0.18
+    suspensionLength: 0.05
     lastSuspensionLength: 0
     mass: 4.7
-    size: 0.42
-    engineTorque: 100
+    size: 0.5
+    engineTorque: 0
     brakeStrength: 4
     slidding: 0
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -1228,13 +1397,13 @@ MonoBehaviour:
     tcsReduction: 0
   - skidTrail: {fileID: 0}
     skidTrailGameObject: {fileID: 0}
-    localPosition: {x: 0.78, y: 0.59, z: -1.7}
-    turnAngle: -12
-    suspensionLength: 0.18
+    localPosition: {x: 0.88, y: 0.37, z: -1.8}
+    turnAngle: 0
+    suspensionLength: 0.05
     lastSuspensionLength: 0
     mass: 4.7
-    size: 0.42
-    engineTorque: 100
+    size: 0.5
+    engineTorque: 33
     brakeStrength: 4
     slidding: 0
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -1253,13 +1422,63 @@ MonoBehaviour:
     tcsReduction: 0
   - skidTrail: {fileID: 0}
     skidTrailGameObject: {fileID: 0}
-    localPosition: {x: -0.78, y: 0.59, z: -1.7}
-    turnAngle: -12
-    suspensionLength: 0.18
+    localPosition: {x: -0.88, y: 0.37, z: -1.8}
+    turnAngle: 0
+    suspensionLength: 0.05
     lastSuspensionLength: 0
     mass: 4.7
-    size: 0.42
-    engineTorque: 100
+    size: 0.5
+    engineTorque: 33
+    brakeStrength: 4
+    slidding: 0
+    worldSlipDirection: {x: 0, y: 0, z: 0}
+    suspensionForceDirection: {x: 0, y: 0, z: 0}
+    wheelWorldPosition: {x: 0, y: 0, z: 0}
+    wheelCircumference: 0
+    torque: 0
+    wheelObject: {fileID: 0}
+    localVelocity: {x: 0, y: 0, z: 0}
+    normalForce: 0
+    angularVelocity: 0
+    slip: 0
+    input: {x: 0, y: 0}
+    brake: 0
+    slipHistory: 0
+    tcsReduction: 0
+  - skidTrail: {fileID: 0}
+    skidTrailGameObject: {fileID: 0}
+    localPosition: {x: 0.88, y: 0.37, z: -1}
+    turnAngle: 0
+    suspensionLength: 0.05
+    lastSuspensionLength: 0
+    mass: 4.7
+    size: 0.5
+    engineTorque: 33
+    brakeStrength: 4
+    slidding: 0
+    worldSlipDirection: {x: 0, y: 0, z: 0}
+    suspensionForceDirection: {x: 0, y: 0, z: 0}
+    wheelWorldPosition: {x: 0, y: 0, z: 0}
+    wheelCircumference: 0
+    torque: 0
+    wheelObject: {fileID: 0}
+    localVelocity: {x: 0, y: 0, z: 0}
+    normalForce: 0
+    angularVelocity: 0
+    slip: 0
+    input: {x: 0, y: 0}
+    brake: 0
+    slipHistory: 0
+    tcsReduction: 0
+  - skidTrail: {fileID: 0}
+    skidTrailGameObject: {fileID: 0}
+    localPosition: {x: -0.88, y: 0.37, z: -1}
+    turnAngle: 0
+    suspensionLength: 0.05
+    lastSuspensionLength: 0
+    mass: 4.7
+    size: 0.5
+    engineTorque: 33
     brakeStrength: 4
     slidding: 0
     worldSlipDirection: {x: 0, y: 0, z: 0}
@@ -1291,7 +1510,7 @@ MonoBehaviour:
   downforce: 0.02
   isBraking: 0
   COMOffset: {x: 0, y: -0.2, z: 0}
-  Inertia: 1.2
+  Inertia: 2.5
   handBrakeEnabled: 1
 --- !u!65 &1587657323
 BoxCollider:
@@ -1312,8 +1531,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.8968229, y: 0.7865968, z: 5.1697264}
-  m_Center: {x: 0, y: 0.46991754, z: 0}
+  m_Size: {x: 1.8968229, y: 0.48181784, z: 5.1697264}
+  m_Center: {x: 0, y: 0.31752807, z: 0}
 --- !u!23 &1587657324
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1386,6 +1605,7 @@ Transform:
   m_Children:
   - {fileID: 5210018304511208663}
   - {fileID: 276441089}
+  - {fileID: 138920232}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1587657327
@@ -1419,7 +1639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1590605784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1712,6 +1932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: model
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a28104d57fe8c41d79fafd19102cd25e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1379069832392934994, guid: a28104d57fe8c41d79fafd19102cd25e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1805,6 +2029,64 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a28104d57fe8c41d79fafd19102cd25e, type: 3}
+--- !u!1001 &1618993609
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 796381153}
+    m_Modifications:
+    - target: {fileID: 100014, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_Name
+      value: Trailer
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 556306662471747196, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 824b045cfb5412444a2d59824cb98223, type: 3}
 --- !u!1 &2089552990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,7 +2268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5210018304511208663
 Transform:
   m_ObjectHideFlags: 0
